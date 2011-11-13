@@ -105,16 +105,24 @@ public class Analyzer {
         }
     }
 
+    public static void usage() {
+        System.err.println("usage: java " + Analyzer.class.getName() + " \\");
+        System.err.println("\t--paths file1.jar ... fileN.jar | \\");
+        System.err.println("\t--compare file1.jar file2.jar");
+        System.exit(-1);
+    }
+
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
-            System.err.println("usage");
-            System.exit(0);
+            usage();
         }
 
         if (args[0].equals("--paths")) {
             new Analyzer().checkClasspath(Arrays.copyOfRange(args, 1, args.length));
-        } else if (args[0].equals("--compare")) {
+        } else if (args[0].equals("--compare") && args.length == 3) {
             new Analyzer().compareClasspath(Arrays.copyOfRange(args, 1, args.length));
         }
+
+        usage();
     }
 }
